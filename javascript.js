@@ -27,136 +27,244 @@ function operate(array, calculate) {
 const displayText = document.getElementById('display-text');
 const numberButton = document.querySelectorAll('.number-button')
 
-//Variable to store value
-let valueDisplay = '';
-let valueString = [];
-// Variable to store mathematical function.
-let calculate;
+// // //
+let displayValue = ''; // Variable to store value to be displayed on calc
+let operator = ''; // Variable to store mathemtical function
+let arrayOfValues = []; // Variable to store values to be calculated
 
-function updateDisplay(valueDisplay) {
-    displayText.innerText = valueDisplay;
+// // //Variable to store value
+// // let valueDisplay = '';
+// // let valueString = [];
+// // // Variable to store mathematical function.
+// // let calculate;
+
+function updateDisplay(displayValue) {  // function to update the display
+    displayText.innerText = displayValue;
 }
 
-numberButton.forEach((button) => {
+numberButton.forEach((button) => {  // Event listener for numerical buttons
     button.addEventListener('click', () => {
-        valueDisplay += button.textContent;
-        updateDisplay(valueDisplay);
+        displayValue += button.textContent;
+        updateDisplay(displayValue);
     });
 });  
 
-// Function to clear
+// Function to clear & eventlistener for clear button
+// // Declaring Variable
 const clearButton = document.getElementById('clear-button');
 
-function clearDisplay() {
-    displayText.innerText = '';
-    valueDisplay = '';
-}
-
-clearButton.addEventListener('click', () => {
-    valueString = [];
-    clearDisplay();
+// // Event Listener
+clearButton.addEventListener('click', () => {  // EventListener
+    clear();
 });
 
+// // Function
+function clear() {
+    displayText.innerText = '';
+    displayValue = '';
+    arrayOfValues = [];
+}
+
+// Decimal Button
+// // Declaring variable
+const decimalButton = document.getElementById('decimal-button');
+
+//  Event Listener
+decimalButton.addEventListener('click', () => {
+    if (displayValue.includes('.')) {
+        decimalButton.disabled = true;
+    } else {
+        displayValue += decimalButton.textContent;
+        updateDisplay(displayValue);
+    }
+})
+
 // Declaring variable for mathematical functions.
-const additionButton = document.getElementById('addition-button');
-const subtractionButton = document.getElementById('subtraction-button');
-const multiplicationButton = document.getElementById('multiplication-button');
-const divisionButton = document.getElementById('division-button');
+const addButton = document.getElementById('addition-button');
+const subtractButton = document.getElementById('subtraction-button');
+const multiplyButton = document.getElementById('multiplication-button');
+const divideButton = document.getElementById('division-button');
 const equalButton = document.getElementById('equal-button');
 
-    // Event Listener to get calculator to work.
-additionButton.addEventListener('click', () => {
-    if (valueDisplay === '') {
-        calculate = addition;
-        decimalButton.disabled = false;
-    } else {
-        valueString.push(parseFloat(valueDisplay));
-        valueDisplay = '';
-        calculate = addition;
-        decimalButton.disabled = false;
-    }
-})
 
-subtractionButton.addEventListener('click', () => {
-    if (valueDisplay === '') {
-        calculate = subtraction;
-        decimalButton.disabled = false;
-    } else {
-        valueString.push(parseFloat(valueDisplay));
-        valueDisplay = '';
-        calculate = subtraction;
-        decimalButton.disabled = false;
-    }
-})
-
-divisionButton.addEventListener('click', () => {
-    if (valueDisplay === '') {
-        calculate = division;
-        decimalButton.disabled = false;
-    } else {
-        valueString.push(parseFloat(valueDisplay));
-        valueDisplay = '';
-        calculate = division;
-        decimalButton.disabled = false;
-    }
-})
-
-multiplicationButton.addEventListener('click', () => {
-    if (valueDisplay === '') {
-        calculate = multiplication;
-        decimalButton.disabled = false;
-    } else {
-        valueString.push(parseFloat(valueDisplay));
-        valueDisplay = '';
-        calculate = multiplication;
-        decimalButton.disabled = false;
-    }
-})
-
+//  Event Listener for mathematical function
+// // Equal Button Event Listener
 equalButton.addEventListener('click', () => {
-    if (valueDisplay == 0 && calculate == division) {
-        valueDisplay = 'ERROR!';
-        updateDisplay(valueDisplay);
-    } else if (valueDisplay == '' || calculate == '') {
-        valueString = [];
-        valueDisplay = '';
-        calculate = ''
-    } else if (decimalCheck(valueDisplay) === true) {
-        valueString.push(parseFloat(valueDisplay));
-        valueDisplay = operate(valueString, calculate);
-        updateDisplay(valueDisplay.toFixed(2));
-        valueString = [valueDisplay];
-        valueDisplay = '';
-        calculate = '';
+    if (operator === '') { 
+        // Do nothing - prevent error.
+    } else if (decimalCheck(arrayOfValues) === true) {
+        arrayOfValues.push(parseFloat(displayValue));
+        displayValue = operate(arrayOfValues, operator).toFixed(2);
+        updateDisplay(displayValue);
+        arrayofValues = [displayValue];
+        displayValue = '';
+        operator = '';
+        decimalButton.disable = false;
+    } else {
+        arrayOfValues.push(parseFloat(displayValue));
+        displayValue = operate(arrayOfValues, operator);
+            if (findDecimal(displayValue) === true){
+                updateDisplay(displayValue.toFixed(2));
+                arrayOfValues = [displayValue.toFixed(2)];
+                displayValue = '';
+                operator = '';
+                decimalButton.disable = false;
+            } else {
+                updateDisplay(displayValue);
+                arrayOfValues = [displayValue];
+                displayValue = '';
+                operator = '';
+                decimalButton.disable = false;
+            }
+    }
+})
+// // Addition button listener
+addButton.addEventListener('click', () => {
+    if (displayValue === '') {
+        operator = addition;
         decimalButton.disabled = false;
     } else {
-        valueString.push(parseFloat(valueDisplay));
-        valueDisplay = operate(valueString, calculate);
-        updateDisplay(valueDisplay);
-        valueString = [valueDisplay];
-        valueDisplay = '';
-        calculate = '';
+        arrayOfValues.push(parseFloat(displayValue));
+        operator = addition;
+        displayValue = '';
+        decimalButton.disabled = false;
+    }  
+})
+
+// // Subtraction button listener
+subtractButton.addEventListener('click', () => {
+    if (displayValue === '') {
+        operator = subtraction;
+        decimalButton.disabled = false;
+    } else {
+        arrayOfValues.push(parseFloat(displayValue));
+        operator = subtraction;
+        displayValue = '';
+        decimalButton.disabled = false;
+    }  
+})
+
+// // Divison button listener
+divideButton.addEventListener('click', () => {
+    if (displayValue === '') {
+        operator = division;
+        decimalButton.disabled = false;
+    } else {
+        arrayOfValues.push(parseFloat(displayValue));
+        operator = division;
+        displayValue = '';
         decimalButton.disabled = false;
     }
 })
 
-//Function to test if number contains decimal => if decimal, toFixed(2).
-function decimalCheck(num) {
-    if ((num - Math.floor(num)) !== 0) {
+// // Multiply button listener
+multiplyButton.addEventListener('click', () => {
+    if (displayValue === '') {
+        operator = multiplication;
+        decimalButton.disabled = false;
+    } else {
+        arrayOfValues.push(parseFloat(displayValue));
+        operator = multiplication;
+        displayValue = '';
+        decimalButton.disabled = false;
+    }
+})
+
+//Function to test if at least one value in array contains decimal => if decimal, toFixed(2).
+function decimalCheck(arrayOfValues) {
+    if (arrayOfValues.some(findDecimal) === true){
+        return true;
+    } else {    
+        return false;
+    }
+}
+// function to test if number contains decimal.
+function findDecimal(number) {
+    if (number % 1 != 0) {
         return true;
     } else {
         return false;
     }
 }
 
-// Decimal point button and event listener.
-const decimalButton = document.getElementById('decimal-button');
 
-decimalButton.addEventListener('click', () => {
-    if (valueDisplay.includes('.')) {
-        decimalButton.disabled = true;
-    } else {
-        valueDisplay += decimalButton.textContent;
-        updateDisplay(valueDisplay);
-    }
-})
+
+
+
+
+// //     // Event Listener to get calculator to work.
+// // additionButton.addEventListener('click', () => {
+// //     if (valueDisplay === '') {
+// //         calculate = addition;
+// //         decimalButton.disabled = false;
+// //     } else {
+// //         valueString.push(parseFloat(valueDisplay));
+// //         valueDisplay = '';
+// //         calculate = addition;
+// //         decimalButton.disabled = false;
+// //     }
+// // })
+// // divisionButton.addEventListener('click', () => {
+// //     if (valueDisplay === '') {
+// //         calculate = division;
+// //         decimalButton.disabled = false;
+// //     } else {
+// //         valueString.push(parseFloat(valueDisplay));
+// //         valueDisplay = '';
+// //         calculate = division;
+// //         decimalButton.disabled = false;
+// //     }
+// // })
+
+// // subtractionButton.addEventListener('click', () => {
+// //     if (valueDisplay === '') {
+// //         calculate = subtraction;
+// //         decimalButton.disabled = false;
+// //     } else {
+// //         valueString.push(parseFloat(valueDisplay));
+// //         valueDisplay = '';
+// //         calculate = subtraction;
+// //         decimalButton.disabled = false;
+// //     }
+// // })
+
+// // multiplicationButton.addEventListener('click', () => {
+// //     if (valueDisplay === '') {
+// //         calculate = multiplication;
+// //         decimalButton.disabled = false;
+// //     } else {
+// //         valueString.push(parseFloat(valueDisplay));
+// //         valueDisplay = '';
+// //         calculate = multiplication;
+// //         decimalButton.disabled = false;
+// //     }
+// // })
+
+
+
+// // equalButton.addEventListener('click', () => {
+// //     if (valueDisplay == 0 && calculate == division) {
+// //         valueDisplay = 'ERROR!';
+// //         updateDisplay(valueDisplay);
+// //     } else if (valueDisplay == '' || calculate == '') {
+// //         valueString = [];
+// //         valueDisplay = '';
+// //         calculate = ''
+// //     } else if (decimalCheck(valueDisplay) === true) {
+// //         valueString.push(parseFloat(valueDisplay));
+// //         valueDisplay = operate(valueString, calculate);
+// //         updateDisplay(valueDisplay.toFixed(2));
+// //         valueString = [valueDisplay];
+// //         valueDisplay = '';
+// //         calculate = '';
+// //         decimalButton.disabled = false;
+// //     } else {
+// //         valueString.push(parseFloat(valueDisplay));
+// //         valueDisplay = operate(valueString, calculate);
+// //         updateDisplay(valueDisplay);
+// //         valueString = [valueDisplay];
+// //         valueDisplay = '';
+// //         calculate = '';
+// //         decimalButton.disabled = false;
+// //     }
+// // })
