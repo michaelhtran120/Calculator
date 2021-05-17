@@ -72,7 +72,7 @@ const decimalButton = document.getElementById('decimal-button');
 //  Event Listener
 decimalButton.addEventListener('click', () => {
     if (displayValue.includes('.')) {
-        decimalButton.disabled = true;
+    // do nothing.
     } else {
         displayValue += decimalButton.textContent;
         updateDisplay(displayValue);
@@ -92,14 +92,15 @@ const equalButton = document.getElementById('equal-button');
 equalButton.addEventListener('click', () => {
     if (operator === '') { 
         // Do nothing - prevent error.
-    } else if (decimalCheck(arrayOfValues) === true) {
-        arrayOfValues.push(parseFloat(displayValue));
-        displayValue = operate(arrayOfValues, operator).toFixed(2);
-        updateDisplay(displayValue);
-        arrayofValues = [displayValue];
-        displayValue = '';
-        operator = '';
-        decimalButton.disable = false;
+    // } else if (decimalCheck(arrayOfValues) === true) {
+    //     arrayOfValues.push(parseFloat(displayValue));
+    //     displayValue = operate(arrayOfValues, operator).toFixed(2);
+    //     updateDisplay(displayValue);
+    //     arrayofValues = [displayValue];
+    //     displayValue = '';
+    //     operator = '';
+    //     decimalButton.disable = false;
+    // } 
     } else {
         arrayOfValues.push(parseFloat(displayValue));
         displayValue = operate(arrayOfValues, operator);
@@ -108,13 +109,12 @@ equalButton.addEventListener('click', () => {
                 arrayOfValues = [displayValue.toFixed(2)];
                 displayValue = '';
                 operator = '';
-                decimalButton.disable = false;
             } else {
                 updateDisplay(displayValue);
                 arrayOfValues = [displayValue];
                 displayValue = '';
                 operator = '';
-                decimalButton.disable = false;
+
             }
     }
 })
@@ -122,12 +122,10 @@ equalButton.addEventListener('click', () => {
 addButton.addEventListener('click', () => {
     if (displayValue === '') {
         operator = addition;
-        decimalButton.disabled = false;
     } else {
         arrayOfValues.push(parseFloat(displayValue));
         operator = addition;
         displayValue = '';
-        decimalButton.disabled = false;
     }  
 })
 
@@ -135,12 +133,10 @@ addButton.addEventListener('click', () => {
 subtractButton.addEventListener('click', () => {
     if (displayValue === '') {
         operator = subtraction;
-        decimalButton.disabled = false;
     } else {
         arrayOfValues.push(parseFloat(displayValue));
         operator = subtraction;
         displayValue = '';
-        decimalButton.disabled = false;
     }  
 })
 
@@ -148,12 +144,10 @@ subtractButton.addEventListener('click', () => {
 divideButton.addEventListener('click', () => {
     if (displayValue === '') {
         operator = division;
-        decimalButton.disabled = false;
     } else {
         arrayOfValues.push(parseFloat(displayValue));
         operator = division;
         displayValue = '';
-        decimalButton.disabled = false;
     }
 })
 
@@ -161,23 +155,21 @@ divideButton.addEventListener('click', () => {
 multiplyButton.addEventListener('click', () => {
     if (displayValue === '') {
         operator = multiplication;
-        decimalButton.disabled = false;
     } else {
         arrayOfValues.push(parseFloat(displayValue));
         operator = multiplication;
         displayValue = '';
-        decimalButton.disabled = false;
     }
 })
 
 //Function to test if at least one value in array contains decimal => if decimal, toFixed(2).
-function decimalCheck(arrayOfValues) {
-    if (arrayOfValues.some(findDecimal) === true){
-        return true;
-    } else {    
-        return false;
-    }
-}
+// function decimalCheck(arrayOfValues) {
+//     if (arrayOfValues.some(findDecimal) === true){
+//         return true;
+//     } else {    
+//         return false;
+//     }
+// }
 // function to test if number contains decimal.
 function findDecimal(number) {
     if (number % 1 != 0) {
