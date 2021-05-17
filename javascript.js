@@ -51,7 +51,7 @@ numberButton.forEach((button) => {  // Event listener for numerical buttons
 
 // Function to clear & eventlistener for clear button
 // // Declaring Variable
-const clearButton = document.getElementById('clear-button');
+const clearButton = document.getElementById('ac-button');
 
 // // Event Listener
 clearButton.addEventListener('click', () => {  // EventListener
