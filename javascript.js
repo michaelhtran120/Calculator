@@ -44,20 +44,35 @@ numberButton.forEach((button) => {  // Event listener for numerical buttons
     });
 });  
 
-// Function to clear & eventlistener for clear button
+// Function to clear (ac) and back (c) & eventlistener for 'ac' and 'c' button
 // // Declaring Variable
-const clearButton = document.getElementById('ac-button');
+const acButton = document.getElementById('ac-button');
+const cButton = document.getElementById('c-button');
 
-// // Event Listener
-clearButton.addEventListener('click', () => {  // EventListener
-    clear();
+// // Event Listener for 'ac' button
+acButton.addEventListener('click', () => {
+    acClear();
 });
 
-// // Function
-function clear() {
+// //'ac' button clear Function
+function acClear() {
     displayText.innerText = '';
     displayValue = '';
     arrayOfValues = [];
+}
+// //EventListener for 'c' button
+cButton.addEventListener('click', () => { 
+    if (displayValue === '' || typeof displayValue === 'number') {
+        // do nothing
+    } else {
+    cDelete();
+    }
+});
+
+// // 'c' button delete function
+function cDelete() {
+    displayValue = displayValue.slice(0,-1);
+    updateDisplay(displayValue);
 }
 
 // Decimal Button
@@ -123,7 +138,7 @@ addButton.addEventListener('click', () => {
     if (displayValue === '') {
         operator = addition;
     } else {
-        arrayOfValues.push(displayValue);
+        arrayOfValues.push(parseFloat(displayValue));
         operator = addition;
         displayValue = '';
     }  

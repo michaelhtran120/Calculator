@@ -60,9 +60,19 @@
 }
 
 #ac-button {
-    background-color: indianred;
+    background-color: rgb(185, 71, 71);
     border-radius: 50px;
     color: white;
+}
+
+#c-button {
+    background-color: indianred ;
+}
+
+#ac-button:hover,
+#c-button:hover {
+    background-color: rgb(228, 140, 140);
+    color: black;
 }
 
 .number-button {
@@ -80,12 +90,11 @@
 #equal-button {
     grid-column-start: 3;
     grid-column-end: 5;
-    background-color: rgb(60, 224, 60);
+    background-color: rgb(98, 189, 98);
     color: white;
     border-radius: 25px;
 }
-
-
-#ac-button:hover {
-    background-color: lightblue;
+#equal-button:hover {
+    background-color: rgb(74, 223, 74);
+    color: black;
 }
