@@ -34,8 +34,7 @@
     row-gap: 0.5em;
     background-color: rgb(36, 35, 35);
     padding-top: 10px;
-    padding-bottom: 5px;
-    font-family:
+    padding-bottom: 10px;
 }
 
 #display-text {
@@ -46,7 +45,7 @@
 }
 .calc-button {
     padding: 14px 0px;
-    font-size: 16px;
+    font-size: 24px;
     height: 53px;
     border-radius: 100%;
     border: none;

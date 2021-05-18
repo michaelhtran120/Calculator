@@ -18,6 +18,7 @@ function division(array) {
     const divide = (total, num) => total / num;
     return array.reduce(divide);
 }
+
 // Function to call mathematical functions and values.
 function operate(array, calculate) {
     return calculate(array);
@@ -25,18 +26,12 @@ function operate(array, calculate) {
 
 // Function to update text display when number button are pressed.
 const displayText = document.getElementById('display-text');
-const numberButton = document.querySelectorAll('.number-button')
+const numberButton = document.querySelectorAll('.number-button');
 
 // // //
 let displayValue = ''; // Variable to store value to be displayed on calc
 let operator = ''; // Variable to store mathemtical function
 let arrayOfValues = []; // Variable to store values to be calculated
-
-// // //Variable to store value
-// // let valueDisplay = '';
-// // let valueString = [];
-// // // Variable to store mathematical function.
-// // let calculate;
 
 function updateDisplay(displayValue) {  // function to update the display
     displayText.innerText = displayValue;
@@ -80,6 +75,7 @@ decimalButton.addEventListener('click', () => {
 })
 
 // Declaring variable for mathematical functions.
+const percentageButton = document.getElementById('percent-button');
 const addButton = document.getElementById('addition-button');
 const subtractButton = document.getElementById('subtraction-button');
 const multiplyButton = document.getElementById('multiplication-button');
@@ -92,21 +88,14 @@ const equalButton = document.getElementById('equal-button');
 equalButton.addEventListener('click', () => {
     if (operator === '') { 
         // Do nothing - prevent error.
-    // } else if (decimalCheck(arrayOfValues) === true) {
-    //     arrayOfValues.push(parseFloat(displayValue));
-    //     displayValue = operate(arrayOfValues, operator).toFixed(2);
-    //     updateDisplay(displayValue);
-    //     arrayofValues = [displayValue];
-    //     displayValue = '';
-    //     operator = '';
-    //     decimalButton.disable = false;
-    // } 
     } else {
         arrayOfValues.push(parseFloat(displayValue));
         displayValue = operate(arrayOfValues, operator);
             if (findDecimal(displayValue) === true){
-                updateDisplay(displayValue.toFixed(2));
-                arrayOfValues = [displayValue.toFixed(2)];
+                displayValue = displayValue.toFixed(2);
+                updateDisplay(displayValue);
+                arrayOfValues = [];
+                arrayOfValues.push(parseFloat(displayValue));
                 displayValue = '';
                 operator = '';
             } else {
@@ -114,8 +103,19 @@ equalButton.addEventListener('click', () => {
                 arrayOfValues = [displayValue];
                 displayValue = '';
                 operator = '';
-
             }
+    }
+})
+
+// // Percentage button listener
+percentageButton.addEventListener('click', () => {
+    if (displayValue === '') {
+        displayValue = parseFloat((arrayOfValues/100).toFixed(2));
+        updateDisplay(displayValue);
+        arrayOfValues = [];
+    } else {
+        displayValue = (displayValue/100);
+        updateDisplay(displayValue);
     }
 })
 // // Addition button listener
@@ -123,7 +123,7 @@ addButton.addEventListener('click', () => {
     if (displayValue === '') {
         operator = addition;
     } else {
-        arrayOfValues.push(parseFloat(displayValue));
+        arrayOfValues.push(displayValue);
         operator = addition;
         displayValue = '';
     }  
